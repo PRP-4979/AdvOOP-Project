@@ -97,7 +97,6 @@ public class Assignment {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				Command window = new Command();
-				
 				window.VisibleScreen();
 			}
 		});
@@ -140,8 +139,8 @@ public class Assignment {
 		HomeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Command window = new Command();
-				
 				window.VisibleScreen();
+				
 				frame.setVisible(false);
 			}
 		});
@@ -185,6 +184,8 @@ public class Assignment {
 		});
 		frame.getContentPane().add(ContainerPane);
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage1() {
 		PreData = new JPanel();
@@ -279,6 +280,8 @@ public class Assignment {
 		
 		return Page1;
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage2() {
 		Assignment = new JPanel();
@@ -525,6 +528,8 @@ public class Assignment {
 		
 		return Page2;
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage3() {
 		Symptom = new JPanel();

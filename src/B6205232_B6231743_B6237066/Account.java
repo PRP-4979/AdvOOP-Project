@@ -7,6 +7,7 @@ public class Account extends Database {
 	private String username = "";
 	private String password = "";
 	private String sql = "";
+	private ResultSet rsRead;
 	
 	public Account(String username, String password) {
 		this.username = username;
@@ -17,15 +18,15 @@ public class Account extends Database {
 		boolean confirm = false;
 		
 		Database db = new Database();
-		
 		if (db.Connect()) {
 			try {
 				sql = "SELECT * FROM user WHERE username='" + username + "' AND password='" + password + "'";
-				
 				rsRead = db.ExecuteQuery(sql);
 				
-				if (username.equals(rsRead.getString("username")) && password.equals(rsRead.getString("password"))) {
-					confirm = true;	
+				if (rsRead != null) {
+					if (username.equals(rsRead.getString("username")) && password.equals(rsRead.getString("password"))) {
+						confirm = true;	
+					}					
 				}
 				
 			}catch (SQLException e) {

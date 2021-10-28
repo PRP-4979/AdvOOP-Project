@@ -58,8 +58,8 @@ public class DisplayResult {
 		BackToHomeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Command window = new Command();
-				
 				window.VisibleScreen();
+				
 				frame.setVisible(false);
 			}
 		});
@@ -71,6 +71,7 @@ public class DisplayResult {
 		frame.getContentPane().add(HeadLabel);
 		
 		GuidelineArea = new JTextArea();
+		GuidelineArea.setWrapStyleWord(true);
 		GuidelineArea.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		GuidelineArea.setEditable(false);
 		GuidelineArea.setBounds(40, 269, 660, 255);

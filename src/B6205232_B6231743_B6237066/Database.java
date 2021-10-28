@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class Database {
 	private Statement st;
 	private Connection con = null;
-	protected ResultSet rsRead;
+	private ResultSet rsRead;
 	private String action = "", sql = "";
 
 	public boolean Connect() {
@@ -48,11 +48,66 @@ public class Database {
 	public ResultSet ExecuteQuery(String sql) {
 		try {
 			rsRead = st.executeQuery(sql);
-			rsRead.first();
+			if (rsRead.first() == false) return rsRead = null;
 		}catch (SQLException el) {
 			el.printStackTrace();
 		}
 		
+		return rsRead;
+	}
+	
+	public ResultSet AddRow(String table, String row) {
+		try {
+			st.execute(row);
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+		
+		try {
+			sql = "SELECT * FROM " + table;
+			rsRead = st.executeQuery(sql);
+			if (rsRead.last() == false) return rsRead = null;
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+		
+		return rsRead;
+	}
+	
+	public ResultSet UpdateRow(String table, String row) {
+		try {
+			st.execute(row);
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+		
+		try {
+			sql = "SELECT * FROM " + table;
+			rsRead = st.executeQuery(sql);
+			if (rsRead.first() == false) return rsRead = null;
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+		
+		return rsRead;
+	}
+	
+	public ResultSet DeleteRow(String table, String column, String id) {
+		try {
+			sql = "DELETE FROM " + table + " WHERE " + column + " ='" + id + "'";
+			st.execute(sql);
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+		
+		try {
+			sql = "SELECT * FROM " + table;
+			rsRead = st.executeQuery(sql);
+			if (rsRead.first() == false) return rsRead = null;
+		}catch (SQLException el) {
+			el.printStackTrace();
+		}
+
 		return rsRead;
 	}
 }

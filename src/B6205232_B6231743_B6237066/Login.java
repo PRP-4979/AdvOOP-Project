@@ -129,10 +129,12 @@ public class Login {
 					Account acc = new Account(username, password);
 					
 					if (acc.checkLogin()) {
-						JOptionPane.showMessageDialog(frame, "Login successfully !");
+						AdminGuideline window = new AdminGuideline();
+						window.GuidelineScreen();
+						
 						frame.setVisible(false);
 					}
-					else JOptionPane.showMessageDialog(frame, "Login failed !");
+					else JOptionPane.showMessageDialog(frame, "Login failed !\nUsername or Password is wrong !");
 				}
 			});
 		}

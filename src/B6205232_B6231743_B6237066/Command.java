@@ -63,6 +63,8 @@ public class Command {
 		frame.getContentPane().add(getExitButton(), null);
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private JLabel getTitleLabel() {
 		if (TitleLabel == null) {
 			TitleLabel = new JLabel("\u0E42\u0E1B\u0E23\u0E41\u0E01\u0E23\u0E21\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19\u0E04\u0E27\u0E32\u0E21\u0E40\u0E2A\u0E35\u0E48\u0E22\u0E07\u0E42\u0E04\u0E27\u0E34\u0E14 19");
@@ -72,6 +74,8 @@ public class Command {
 		return TitleLabel;
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private JButton getStartButton() {
 		if (StartButton == null) {
 			StartButton = new JButton("\u0E40\u0E23\u0E34\u0E48\u0E21\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19 !");
@@ -80,8 +84,8 @@ public class Command {
 			StartButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Assignment window = new Assignment();
-					
 					window.AssignmentScreen();
+					
 					frame.setVisible(false);
 				}
 			});
