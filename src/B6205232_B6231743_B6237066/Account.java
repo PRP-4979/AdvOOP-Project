@@ -1,9 +1,12 @@
 package B6205232_B6231743_B6237066;
 
-public class Account {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Account extends Database {
 	private String username = "";
 	private String password = "";
-	private boolean confirm;
+	private String sql = "";
 	
 	public Account(String username, String password) {
 		this.username = username;
@@ -11,9 +14,26 @@ public class Account {
 	}
 	
 	public boolean checkLogin() {
-		if (username.equals("admin") && password.equals("1234")) confirm = true;
-		else confirm = false;
+		boolean confirm = false;
 		
+		Database db = new Database();
+		
+		if (db.Connect()) {
+			try {
+				sql = "SELECT * FROM user WHERE username='" + username + "' AND password='" + password + "'";
+				
+				rsRead = db.ExecuteQuery(sql);
+				
+				if (username.equals(rsRead.getString("username")) && password.equals(rsRead.getString("password"))) {
+					confirm = true;	
+				}
+				
+			}catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("Error: Username or Password is invalid !!");
+			}
+		}
+
 		return confirm;
 	}
 }

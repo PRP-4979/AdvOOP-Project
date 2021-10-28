@@ -53,7 +53,7 @@ public class Login {
 		frame = new JFrame();
 		frame.setTitle("\u0E40\u0E02\u0E49\u0E32\u0E2A\u0E39\u0E48\u0E23\u0E30\u0E1A\u0E1A");
 		frame.setBounds(100, 100, 450, 480);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		frame.getContentPane().add(getTitleLabel(), null);
@@ -144,6 +144,11 @@ public class Login {
 			CancelButton = new JButton("\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01");
 			CancelButton.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 			CancelButton.setBounds(152, 346, 135, 46);
+			CancelButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false);
+				}
+			});
 		}
 		return CancelButton;
 	}

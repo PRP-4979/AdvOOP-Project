@@ -42,6 +42,10 @@ public class Command {
 	public Command() {
 		initialize();
 	}
+	
+	public void VisibleScreen() {
+		frame.setVisible(true);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -73,6 +77,14 @@ public class Command {
 			StartButton = new JButton("\u0E40\u0E23\u0E34\u0E48\u0E21\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19 !");
 			StartButton.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 			StartButton.setBounds(256, 204, 180, 45);
+			StartButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Assignment window = new Assignment();
+					
+					window.AssignmentScreen();
+					frame.setVisible(false);
+				}
+			});
 		}
 		return StartButton;
 	}
