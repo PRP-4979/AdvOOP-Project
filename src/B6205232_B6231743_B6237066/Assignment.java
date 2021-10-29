@@ -55,7 +55,7 @@ public class Assignment {
 	private JRadioButton QA11YesRadio, QA12YesRadio, QA2YesRadio, QA3YesRadio, QA4YesRadio, QA5YesRadio, QA6YesRadio;
 	
 	private JCheckBox FeverCheckBox, CoughCheckBox, RunnyCheckBox, ThroatCheckBox, ExhaustedCheckBox, SmellCheckBox; 
-	private JCheckBox TasteCheckBox, EyeCheckBox, RashCheckBox, DiarrheaCheckBox, AllergyCheckBox, LowImmunityCheckBox;
+	private JCheckBox TasteCheckBox, EyeCheckBox, RashCheckBox, DiarrheaCheckBox;
 	
 	private JTextField TemperatureField;
 	private JLabel CelsiusLabel;
@@ -97,7 +97,6 @@ public class Assignment {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				Command window = new Command();
-				
 				window.VisibleScreen();
 			}
 		});
@@ -140,8 +139,8 @@ public class Assignment {
 		HomeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Command window = new Command();
-				
 				window.VisibleScreen();
+				
 				frame.setVisible(false);
 			}
 		});
@@ -185,6 +184,8 @@ public class Assignment {
 		});
 		frame.getContentPane().add(ContainerPane);
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage1() {
 		PreData = new JPanel();
@@ -279,6 +280,8 @@ public class Assignment {
 		
 		return Page1;
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage2() {
 		Assignment = new JPanel();
@@ -526,6 +529,8 @@ public class Assignment {
 		return Page2;
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public JScrollPane getPage3() {
 		Symptom = new JPanel();
 		
@@ -562,12 +567,6 @@ public class Assignment {
 		DiarrheaCheckBox = new JCheckBox("\u0E17\u0E49\u0E2D\u0E07\u0E40\u0E2A\u0E35\u0E22");
 		DiarrheaCheckBox.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		AllergyCheckBox = new JCheckBox("\u0E40\u0E1B\u0E47\u0E19\u0E20\u0E39\u0E21\u0E34\u0E41\u0E1E\u0E49");
-		AllergyCheckBox.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-			
-		LowImmunityCheckBox = new JCheckBox("\u0E21\u0E35\u0E20\u0E39\u0E21\u0E34\u0E04\u0E38\u0E49\u0E21\u0E01\u0E31\u0E19\u0E15\u0E48\u0E33");
-		LowImmunityCheckBox.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		
 		TopicCLabel = new JLabel("\u0E42\u0E1B\u0E23\u0E14\u0E23\u0E30\u0E1A\u0E38\u0E2D\u0E38\u0E13\u0E2B\u0E20\u0E39\u0E21\u0E34\u0E23\u0E48\u0E32\u0E07\u0E01\u0E32\u0E22\u0E02\u0E2D\u0E07\u0E17\u0E48\u0E32\u0E19");
 		TopicCLabel.setFont(new Font("CordiaUPC", Font.BOLD, 24));
 		
@@ -585,22 +584,20 @@ public class Assignment {
 				.addGroup(gl_Symptom.createSequentialGroup()
 					.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_Symptom.createSequentialGroup()
-							.addGap(20)
-							.addComponent(TopicBLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_Symptom.createSequentialGroup()
 							.addGap(32)
 							.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
+								.addComponent(FeverCheckBox)
+								.addComponent(TasteCheckBox, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
+							.addGap(51)
+							.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
+								.addComponent(CoughCheckBox, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+								.addComponent(SmellCheckBox, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
+							.addGap(30))
+						.addGroup(gl_Symptom.createSequentialGroup()
+							.addGap(20)
+							.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
 								.addComponent(TopicCLabel, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_Symptom.createSequentialGroup()
-									.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
-										.addComponent(FeverCheckBox)
-										.addComponent(AllergyCheckBox, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-										.addComponent(TasteCheckBox, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-									.addGap(36)
-									.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
-										.addComponent(CoughCheckBox, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-										.addComponent(LowImmunityCheckBox)
-										.addComponent(SmellCheckBox, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))))))
+								.addComponent(TopicBLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_Symptom.createSequentialGroup()
@@ -643,24 +640,19 @@ public class Assignment {
 					.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_Symptom.createSequentialGroup()
 							.addGroup(gl_Symptom.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_Symptom.createSequentialGroup()
-									.addGroup(gl_Symptom.createParallelGroup(Alignment.BASELINE)
-										.addComponent(SmellCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-										.addComponent(TasteCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-									.addGap(3)
-									.addGroup(gl_Symptom.createParallelGroup(Alignment.BASELINE)
-										.addComponent(LowImmunityCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-										.addComponent(AllergyCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_Symptom.createParallelGroup(Alignment.BASELINE)
+									.addComponent(SmellCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+									.addComponent(TasteCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_Symptom.createParallelGroup(Alignment.BASELINE)
 									.addComponent(RashCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 									.addComponent(EyeCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
-							.addGap(18)
+							.addGap(13)
 							.addGroup(gl_Symptom.createParallelGroup(Alignment.BASELINE)
 								.addComponent(TopicCLabel)
 								.addComponent(TemperatureField, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 								.addComponent(CelsiusLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(DiarrheaCheckBox, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addGap(122))
+					.addGap(207))
 		);
 		Symptom.setLayout(gl_Symptom);
 		

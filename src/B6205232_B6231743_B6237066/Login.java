@@ -129,10 +129,12 @@ public class Login {
 					Account acc = new Account(username, password);
 					
 					if (acc.checkLogin()) {
-						JOptionPane.showMessageDialog(frame, "Login successfully !");
+						Dashboard window = new Dashboard();
+						window.DashboardScreen();
+						
 						frame.setVisible(false);
 					}
-					else JOptionPane.showMessageDialog(frame, "Login failed !");
+					else JOptionPane.showMessageDialog(frame, "Login failed !\nUsername or Password is wrong !");
 				}
 			});
 		}
@@ -146,6 +148,9 @@ public class Login {
 			CancelButton.setBounds(152, 346, 135, 46);
 			CancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Command window = new Command();
+					window.VisibleScreen();
+					
 					frame.setVisible(false);
 				}
 			});
