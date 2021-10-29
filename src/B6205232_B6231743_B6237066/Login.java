@@ -129,8 +129,8 @@ public class Login {
 					Account acc = new Account(username, password);
 					
 					if (acc.checkLogin()) {
-						AdminGuideline window = new AdminGuideline();
-						window.GuidelineScreen();
+						Dashboard window = new Dashboard();
+						window.DashboardScreen();
 						
 						frame.setVisible(false);
 					}
@@ -148,6 +148,9 @@ public class Login {
 			CancelButton.setBounds(152, 346, 135, 46);
 			CancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Command window = new Command();
+					window.VisibleScreen();
+					
 					frame.setVisible(false);
 				}
 			});

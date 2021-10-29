@@ -102,6 +102,8 @@ public class Command {
 				public void actionPerformed(ActionEvent e) {
 					Login window = new Login();
 					window.LoginScreen();
+					
+					frame.setVisible(false);
 				}
 			});
 		}

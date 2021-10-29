@@ -69,14 +69,14 @@ public class AdminGuideline {
 		}
 		
 		frame = new JFrame();
-		frame.setTitle("\u0E41\u0E19\u0E27\u0E17\u0E32\u0E07\u0E01\u0E32\u0E23\u0E1B\u0E49\u0E2D\u0E07\u0E01\u0E31\u0E19");
+		frame.setTitle("\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E44\u0E01\u0E14\u0E4C\u0E44\u0E25\u0E19\u0E4C");
 		frame.setBounds(100, 100, 810, 580);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		HeadLabel = new JLabel("\u0E41\u0E19\u0E27\u0E17\u0E32\u0E07\u0E01\u0E32\u0E23\u0E1B\u0E49\u0E2D\u0E07\u0E01\u0E31\u0E19");
+		HeadLabel = new JLabel("\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E44\u0E01\u0E14\u0E4C\u0E44\u0E25\u0E19\u0E4C");
 		HeadLabel.setFont(new Font("CordiaUPC", Font.BOLD, 36));
-		HeadLabel.setBounds(265, 27, 209, 46);
+		HeadLabel.setBounds(288, 27, 186, 46);
 		frame.getContentPane().add(HeadLabel);
 		
 		GroupLabel = new JLabel("\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E01\u0E25\u0E38\u0E48\u0E21:");
@@ -100,10 +100,11 @@ public class AdminGuideline {
 		frame.getContentPane().add(getNextButton(), null);
 		frame.getContentPane().add(getLastButton(), null);
 		frame.getContentPane().add(getHomeButton(), null);
-		frame.getContentPane().add(getForceLabel());
+		frame.getContentPane().add(getForceLabel(), null);
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public JTextField getGroupIdField() {
 		if (GroupIdField == null) {
 			GroupIdField = new JTextField();
@@ -469,8 +470,8 @@ public class AdminGuideline {
 			HomeButton.setBounds(308, 460, 100, 40);
 			HomeButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Command window = new Command();
-					window.VisibleScreen();
+					Dashboard window = new Dashboard();
+					window.DashboardScreen();
 					
 					db.Close();
 					frame.setVisible(false);
