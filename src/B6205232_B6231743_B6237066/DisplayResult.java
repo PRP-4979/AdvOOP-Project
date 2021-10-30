@@ -51,6 +51,8 @@ public class DisplayResult {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		process.setStatus();
+		
 		frame = new JFrame();
 		frame.setTitle("\u0E1C\u0E25\u0E01\u0E32\u0E23\u0E1B\u0E23\u0E30\u0E40\u0E21\u0E34\u0E19");
 		frame.setBounds(100, 100, 760, 800);
@@ -129,7 +131,6 @@ public class DisplayResult {
 	
 	public JLabel getDisplayDate() {
 		if (DisplayDate == null) {
-			process.calStatus();
 			DisplayDate = new JLabel(process.getDate());
 			DisplayDate.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 			DisplayDate.setBounds(423, 112, 277, 30);

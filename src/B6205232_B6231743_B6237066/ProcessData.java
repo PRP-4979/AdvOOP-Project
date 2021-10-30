@@ -14,6 +14,9 @@ public class ProcessData {
 	private String sql = "";
 	private ResultSet rsRead;
 	
+	private GuidelineFactory creator;
+	private Guideline guide;
+	
 	public ProcessData(String name, int age, String[] data1, String[] data2, double temperature) {
 		this.name = name;
 		this.age = age;
@@ -36,7 +39,7 @@ public class ProcessData {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void calStatus() {
+	public void setStatus() {
 		int sum = 0;
 		
 		if (data1[0].equals("Yes")) {
@@ -59,6 +62,10 @@ public class ProcessData {
 				}				
 			}		
 		}
+
+		creator = new GuidelineFactory();
+		guide = creator.GuidelineCreator(status);
+		guide.setGuideline();
 	}
 	
 	public String getStatus() {
@@ -145,26 +152,9 @@ public class ProcessData {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public String getGuideline() {
-		String guideline = "";
-		
-		db = new Database();
-		
-		if(db.Connect()) {
-			try {
-				sql = "SELECT * FROM guideline WHERE guide_color='" + status + "'";
-				rsRead = db.ExecuteQuery(sql);
-				
-				if (rsRead != null) {
-					if (rsRead.getString("guide_detail").length() > 0) guideline = String.format("- %s", rsRead.getString("guide_detail"));
-					if ((rsRead.getString("guide_detail").length() > 0) && (rsRead.getString("guide_risk").length() > 0)) guideline += "\n\n";
-					if (rsRead.getString("guide_risk").length() > 0) guideline += String.format("- %s", rsRead.getString("guide_risk"));
-				}
-			}catch(Exception ex) {
-				System.out.println(ex);
-			}
-		}
-		
+	public String getGuideline() {		
+		String guideline = guide.getGuideline();
+			
 		return guideline;
 	}
 	
