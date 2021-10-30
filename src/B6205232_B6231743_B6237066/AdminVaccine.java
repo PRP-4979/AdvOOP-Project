@@ -274,9 +274,9 @@ public class AdminVaccine {
 	
 	private JRadioButton  getAge1Radio() {
 		if (Age1Radio == null) {
-			Age1Radio = new JRadioButton("< 16");
+			Age1Radio = new JRadioButton("> 16 \u0E02\u0E36\u0E49\u0E19\u0E44\u0E1B");
 			Age1Radio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-			Age1Radio.setBounds(220, 158, 78, 23);
+			Age1Radio.setBounds(220, 158, 100, 23);
 			Age1Radio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					RangeField.setText("1");
@@ -288,9 +288,9 @@ public class AdminVaccine {
 	
 	private JRadioButton getAge2Radio() {
 		if (Age2Radio == null) {
-			Age2Radio = new JRadioButton("16 - 60");
+			Age2Radio = new JRadioButton("\u0E44\u0E21\u0E48\u0E40\u0E01\u0E34\u0E19 60");
 			Age2Radio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-			Age2Radio.setBounds(308, 158, 78, 23);
+			Age2Radio.setBounds(340, 159, 90, 23);
 			Age2Radio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					RangeField.setText("2");

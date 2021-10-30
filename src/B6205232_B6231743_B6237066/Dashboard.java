@@ -163,9 +163,9 @@ public class Dashboard {
 						for(int i = 1; i <= count; i++) {
 							String columnName = "";
 							if (rsRead.getString(i).equals("1")) {
-								row.add("น้อยกว่า 16 ปี");
+								row.add("มากกว่า 16 ปี ขึ้นไป");
 							}else if (rsRead.getString(i).equals("2")) {
-								row.add("16 - 60 ปี");
+								row.add("ไม่เกิน 60 ปี");
 							}else {
 								row.add(rsRead.getString(i));
 							}

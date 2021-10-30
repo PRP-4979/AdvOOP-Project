@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -44,15 +46,15 @@ public class Assignment {
 	private JLabel TopicALabel, TopicBLabel, TopicCLabel;
 	private JLabel FirstNameLabel, LastNameLabel, CardIDLabel;
 	private JLabel AgeLabel, HeightLabel, WeightLabel, SexLabel; 
+	private JLabel PreDataLabel;
 	private JTextField FirstNameField, LastNameField, CardIDField;
 	private JTextField AgeField, HeightField, WeightField;
 	private JComboBox SexComboBox;
-
-	private JLabel PreDataLabel;
-
-	private JTextPane QA1Text, QA11Text, QA12Text, QA2Text, QA3Text, QA4Text, QA5Text, QA6Text;
-	private JRadioButton QA11NoRadio, QA12NoRadio, QA2NoRadio, QA3NoRadio, QA4NoRadio, QA5NoRadio, QA6NoRadio;
-	private JRadioButton QA11YesRadio, QA12YesRadio, QA2YesRadio, QA3YesRadio, QA4YesRadio, QA5YesRadio, QA6YesRadio;
+	
+	private JTextPane QA1Text, QA2Text, QA3Text, QA4Text, QA5Text, QA6Text;
+	private JRadioButton QA1NoRadio, QA2NoRadio, QA3NoRadio, QA4NoRadio, QA5NoRadio, QA6NoRadio;
+	private JRadioButton QA1YesRadio, QA2YesRadio, QA3YesRadio, QA4YesRadio, QA5YesRadio, QA6YesRadio;
+	private ButtonGroup QA1Group, QA2Group, QA3Group, QA4Group, QA5Group, QA6Group;
 	
 	private JCheckBox FeverCheckBox, CoughCheckBox, RunnyCheckBox, ThroatCheckBox, ExhaustedCheckBox, SmellCheckBox; 
 	private JCheckBox TasteCheckBox, EyeCheckBox, RashCheckBox, DiarrheaCheckBox;
@@ -61,7 +63,7 @@ public class Assignment {
 	private JLabel CelsiusLabel;
 	
 	private int currentPage = 0;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -151,10 +153,87 @@ public class Assignment {
 		ProcessButton.setBounds(607, 534, 115, 37);
 		ProcessButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayResult window = new DisplayResult();
+				try {
+					String name = String.format("%s %s", FirstNameField.getText(), LastNameField.getText());
+					int age = Integer.parseInt(AgeField.getText());
+					double temperature = Double.parseDouble(TemperatureField.getText());
+					
+					String QA1Value, QA2Value, QA3Value, QA4Value, QA5Value, QA6Value;
+					String FeverValue = "No", CoughValue = "No", RunnyValue = "No", ThroatValue = "No", ExhaustedValue = "No"; 
+					String TasteValue = "No", SmellValue = "No", EyeValue = "No", RashValue = "No", DiarrheaValue = "No";
+					
+					if (QA1NoRadio.isSelected()) {
+						QA1Value = "No";
+					} else if (QA1YesRadio.isSelected()) {
+						QA1Value = "Yes";
+					} else {
+						QA1Value = "Null";
+					}
+					
+					if (QA2NoRadio.isSelected()) {
+						QA2Value = "No";
+					} else if (QA2YesRadio.isSelected()) {
+						QA2Value = "Yes";
+					} else {
+						QA2Value = "Null";
+					}
+					
+					if (QA3NoRadio.isSelected()) {
+						QA3Value = "No";
+					} else if (QA3YesRadio.isSelected()) {
+						QA3Value = "Yes";
+					} else {
+						QA3Value = "Null";
+					}
+					
+					if (QA4NoRadio.isSelected()) {
+						QA4Value = "No";
+					} else if (QA4YesRadio.isSelected()) {
+						QA4Value = "Yes";
+					} else {
+						QA4Value = "Null";
+					}
+					
+					if (QA5NoRadio.isSelected()) {
+						QA5Value = "No";
+					} else if (QA5YesRadio.isSelected()) {
+						QA5Value = "Yes";
+					} else {
+						QA5Value = "Null";
+					}
+					
+					if (QA6NoRadio.isSelected()) {
+						QA6Value = "No";
+					} else if (QA6YesRadio.isSelected()) {
+						QA6Value = "Yes";
+					} else {
+						QA6Value = "Null";
+					}
+					
+					String[] data1 = {QA1Value, QA2Value, QA3Value, QA4Value, QA5Value, QA6Value};
+					
+					if (FeverCheckBox.isSelected()) FeverValue = "Yes";
+					if (CoughCheckBox.isSelected()) CoughValue = "Yes";
+					if (RunnyCheckBox.isSelected()) RunnyValue = "Yes";
+					if (ThroatCheckBox.isSelected()) ThroatValue = "Yes";
+					if (ExhaustedCheckBox.isSelected()) ExhaustedValue = "Yes";
+					if (TasteCheckBox.isSelected()) TasteValue = "Yes";
+					if (SmellCheckBox.isSelected()) SmellValue = "Yes";
+					if (EyeCheckBox.isSelected()) EyeValue = "Yes";
+					if (RashCheckBox.isSelected()) RashValue = "Yes";
+					if (DiarrheaCheckBox.isSelected()) DiarrheaValue = "Yes";
+					
+					String[] data2 = {FeverValue, CoughValue, RunnyValue, ThroatValue, ExhaustedValue, TasteValue, SmellValue, EyeValue, RashValue, DiarrheaValue};
+					
+					ProcessData process = new ProcessData(name, age, data1, data2, temperature);
+					DisplayResult window = new DisplayResult(process);
+					
+					window.ResultScreen();
+					frame.setVisible(false);
+				} catch (Exception error) {
+					JOptionPane.showMessageDialog(frame, "Please fill out the field completely.");
+				}
 				
-				window.ResultScreen();
-				frame.setVisible(false);
 			}
 		});
 		ProcessButton.setVisible(false);
@@ -284,6 +363,7 @@ public class Assignment {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public JScrollPane getPage2() {
+		
 		Assignment = new JPanel();
 		Assignment.setBackground(SystemColor.menu);
 		
@@ -291,70 +371,50 @@ public class Assignment {
 		TopicALabel.setFont(new Font("CordiaUPC", Font.BOLD, 24));
 		
 		QA1Text = new JTextPane();
-		QA1Text.setText("1. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07\u0E21\u0E32\u0E08\u0E32\u0E01\u0E2B\u0E23\u0E37\u0E2D\u0E2D\u0E22\u0E39\u0E48\u0E2D\u0E32\u0E28\u0E31\u0E22\u0E43\u0E19\u0E1E\u0E37\u0E49\u0E19\u0E17\u0E35\u0E48\u0E17\u0E35\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E01\u0E32\u0E23\u0E15\u0E34\u0E14\u0E40\u0E0A\u0E37\u0E49\u0E2D \u0E02\u0E2D\u0E07\u0E42\u0E23\u0E04 COVID-19 \u0E43\u0E19 1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32");
+		QA1Text.setText("1. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E01\u0E32\u0E23\u0E15\u0E34\u0E14\u0E40\u0E0A\u0E37\u0E49\u0E2D Covid-19 \u0E20\u0E32\u0E22\u0E43\u0E19\u0E23\u0E30\u0E22\u0E30\u0E40\u0E27\u0E25\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
 		QA1Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA1Text.setBackground(SystemColor.menu);
 		
-		QA11Text = new JTextPane();
-		QA11Text.setText("1.1) \u0E17\u0E48\u0E32\u0E19\u0E44\u0E14\u0E49\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07\u0E21\u0E32\u0E01\u0E08\u0E32\u0E01\u0E15\u0E48\u0E32\u0E07\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28 \u0E17\u0E38\u0E01\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28\u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07 1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48 (\u0E15\u0E48\u0E32\u0E07\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28)");
-		QA11Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		QA11Text.setBackground(SystemColor.menu);
-		
-		QA12Text = new JTextPane();
-		QA12Text.setText("1.2) \u0E17\u0E48\u0E32\u0E19\u0E44\u0E14\u0E49\u0E40\u0E14\u0E34\u0E19\u0E17\u0E32\u0E07\u0E21\u0E32\u0E08\u0E32\u0E01\u0E2B\u0E23\u0E37\u0E2D\u0E2D\u0E32\u0E28\u0E31\u0E22\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19\u0E1E\u0E37\u0E49\u0E19\u0E17\u0E35\u0E48\u0E21\u0E35\u0E01\u0E32\u0E23\u0E23\u0E32\u0E22\u0E07\u0E32\u0E19\u0E01\u0E32\u0E23\u0E15\u0E34\u0E14\u0E40\u0E0A\u0E37\u0E49\u0E2D\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48 \u0E20\u0E32\u0E22\u0E43\u0E19 1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32 (\u0E20\u0E32\u0E22\u0E43\u0E19\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28\u0E44\u0E17\u0E22)");
-		QA12Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		QA12Text.setBackground(SystemColor.menu);
-		
 		QA2Text = new JTextPane();
-		QA2Text.setText("2. \u0E17\u0E48\u0E32\u0E19\u0E17\u0E33\u0E07\u0E32\u0E19\u0E43\u0E19 \u0E2A\u0E16\u0E32\u0E19\u0E01\u0E31\u0E01\u0E01\u0E31\u0E19\u0E42\u0E23\u0E04\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
+		QA2Text.setText("2. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E39\u0E49\u0E21\u0E35\u0E20\u0E39\u0E21\u0E34\u0E04\u0E38\u0E49\u0E21\u0E01\u0E31\u0E19\u0E1A\u0E01\u0E1E\u0E23\u0E48\u0E2D\u0E07\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
 		QA2Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA2Text.setBackground(SystemColor.menu);
 		
 		QA3Text = new JTextPane();
-		QA3Text.setText("3. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E2A\u0E31\u0E21\u0E1C\u0E31\u0E2A\u0E01\u0E31\u0E1A\u0E1C\u0E39\u0E49\u0E1B\u0E48\u0E27\u0E22\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19\u0E42\u0E23\u0E04\u0E15\u0E34\u0E14\u0E40\u0E0A\u0E37\u0E49\u0E2D\u0E44\u0E27\u0E23\u0E31\u0E2A COVID-19 \u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
+		QA3Text.setText("3. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E20\u0E39\u0E21\u0E34\u0E41\u0E1E\u0E49\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E23\u0E38\u0E07\u0E41\u0E23\u0E07\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48 \u0E40\u0E0A\u0E48\u0E19 \u0E41\u0E1E\u0E49\u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E23\u0E38\u0E19\u0E41\u0E23\u0E07 \u0E41\u0E1E\u0E49\u0E42\u0E25\u0E2B\u0E30");
 		QA3Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA3Text.setBackground(SystemColor.menu);
-	
+		
 		QA4Text = new JTextPane();
-		QA4Text.setText("4. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E1A\u0E38\u0E04\u0E25\u0E32\u0E01\u0E23\u0E17\u0E32\u0E07\u0E01\u0E32\u0E23\u0E41\u0E1E\u0E17\u0E22\u0E4C\u0E2B\u0E23\u0E37\u0E2D\u0E2A\u0E32\u0E18\u0E32\u0E23\u0E13\u0E2A\u0E38\u0E02 \u0E17\u0E31\u0E49\u0E07\u0E2A\u0E16\u0E32\u0E19\u0E1E\u0E22\u0E32\u0E1A\u0E32\u0E25, \u0E04\u0E25\u0E34\u0E19\u0E34\u0E04 , \u0E17\u0E35\u0E21\u0E2A\u0E2D\u0E1A\u0E2A\u0E27\u0E19\u0E42\u0E23\u0E04 \u0E2B\u0E23\u0E37\u0E2D \u0E23\u0E49\u0E32\u0E19\u0E02\u0E32\u0E22\u0E22\u0E32 \u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
+		QA4Text.setText("4. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E39\u0E49\u0E17\u0E35\u0E48\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E01\u0E32\u0E23\u0E41\u0E1E\u0E49  \"\u0E2A\u0E32\u0E23\u0E42\u0E1E\u0E25\u0E35\u0E40\u0E2D\u0E18\u0E34\u0E25\u0E35\u0E19 \u0E44\u0E01\u0E04\u0E2D\u0E25(Polyethylene glycol: PEG)\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
 		QA4Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA4Text.setBackground(SystemColor.menu);
 		
 		QA5Text = new JTextPane();
-		QA5Text.setText("5. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E44\u0E1B\u0E43\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E1B\u0E23\u0E30\u0E0A\u0E32\u0E0A\u0E19\u0E2B\u0E19\u0E32\u0E41\u0E19\u0E48\u0E19 \u0E0A\u0E38\u0E21\u0E19\u0E38\u0E21\u0E0A\u0E19 \u0E2B\u0E23\u0E37\u0E2D\u0E17\u0E35\u0E48\u0E21\u0E35\u0E01\u0E32\u0E23\u0E23\u0E27\u0E21\u0E01\u0E25\u0E38\u0E48\u0E21\u0E04\u0E19 \u0E40\u0E0A\u0E48\u0E19 \u0E15\u0E25\u0E32\u0E14\u0E19\u0E31\u0E14 \u0E2B\u0E49\u0E32\u0E07\u0E2A\u0E23\u0E23\u0E1E\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32 \u0E2A\u0E16\u0E32\u0E19\u0E1E\u0E22\u0E32\u0E1A\u0E32\u0E25 \u0E2B\u0E23\u0E37\u0E2D\u0E02\u0E19\u0E2A\u0E48\u0E07\u0E2A\u0E32\u0E18\u0E32\u0E23\u0E13\u0E30 \u0E17\u0E35\u0E48\u0E1E\u0E1A\u0E1C\u0E39\u0E49\u0E2A\u0E07\u0E2A\u0E31\u0E22\u0E2B\u0E23\u0E37\u0E2D\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19 COVID-19 \u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48 \u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07 1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E17\u0E35\u0E48\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32");
+		QA5Text.setText("5. \u0E17\u0E48\u0E32\u0E19\u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E39\u0E49\u0E21\u0E35\u0E42\u0E23\u0E04\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E15\u0E31\u0E27\u0E02\u0E31\u0E49\u0E19\u0E23\u0E38\u0E19\u0E41\u0E23\u0E07\u0E17\u0E35\u0E48\u0E44\u0E21\u0E48\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E04\u0E27\u0E1A\u0E04\u0E38\u0E21\u0E42\u0E23\u0E04\u0E44\u0E14\u0E49 \u0E40\u0E0A\u0E48\u0E19 \u0E42\u0E23\u0E04\u0E04\u0E27\u0E32\u0E21\u0E14\u0E31\u0E19 \u0E42\u0E23\u0E04\u0E21\u0E30\u0E40\u0E23\u0E47\u0E07 \u0E42\u0E23\u0E04\u0E2B\u0E31\u0E27\u0E43\u0E08\u0E41\u0E25\u0E30\u0E2B\u0E25\u0E2D\u0E14\u0E40\u0E25\u0E37\u0E2D\u0E14 \u0E40\u0E1B\u0E47\u0E19\u0E15\u0E49\u0E19");
 		QA5Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA5Text.setBackground(SystemColor.menu);
 		
 		QA6Text = new JTextPane();
-		QA6Text.setText("6. \u0E43\u0E19\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E17\u0E48\u0E32\u0E19\u0E17\u0E35\u0E48\u0E44\u0E1B\u0E1B\u0E23\u0E30\u0E08\u0E33 \u0E04\u0E19\u0E17\u0E35\u0E48\u0E2A\u0E19\u0E34\u0E17\u0E43\u0E01\u0E25\u0E49\u0E0A\u0E34\u0E14\u0E01\u0E31\u0E1A\u0E17\u0E48\u0E32\u0E19 \u0E21\u0E35\u0E2D\u0E32\u0E01\u0E32\u0E23 \u0E44\u0E02\u0E49 \u0E44\u0E2D \u0E19\u0E49\u0E33\u0E21\u0E39\u0E01 \u0E40\u0E2A\u0E21\u0E2B\u0E30 \u0E21\u0E32\u0E01\u0E01\u0E27\u0E48\u0E32 5 \u0E04\u0E19 \u0E1E\u0E23\u0E49\u0E2D\u0E21\u0E46\u0E01\u0E31\u0E19 \u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07\u0E40\u0E27\u0E25\u0E32\u0E20\u0E32\u0E22\u0E43\u0E19\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
+		QA6Text.setText("6. \u0E17\u0E48\u0E32\u0E19\u0E44\u0E21\u0E48\u0E40\u0E04\u0E22\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E41\u0E1E\u0E49\u0E22\u0E32\u0E43\u0E0A\u0E48\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48");
 		QA6Text.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA6Text.setBackground(SystemColor.menu);
 		
-
-		QA11NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
-		QA11NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		QA11YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
-		QA11YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
+		QA1NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
+		QA1NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));	
+		QA1YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
+		QA1YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA11Group = new ButtonGroup();
-		QA11Group.add(QA11NoRadio);
-		QA11Group.add(QA11YesRadio);
-
-		QA12NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
-		QA12NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		QA12YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
-		QA12YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
+		QA1Group = new ButtonGroup();
+		QA1Group.add(QA1NoRadio);
+		QA1Group.add(QA1YesRadio);
 		
-		ButtonGroup QA12Group = new ButtonGroup();
-		QA12Group.add(QA12NoRadio);
-		QA12Group.add(QA12YesRadio);
-
 		QA2NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
 		QA2NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		QA2YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
 		QA2YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA2Group = new ButtonGroup();
+		QA2Group = new ButtonGroup();
 		QA2Group.add(QA2NoRadio);
 		QA2Group.add(QA2YesRadio);
 		
@@ -363,16 +423,16 @@ public class Assignment {
 		QA3YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
 		QA3YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA3Group = new ButtonGroup();
+		QA3Group = new ButtonGroup();
 		QA3Group.add(QA3NoRadio);
 		QA3Group.add(QA3YesRadio);
-		
+
 		QA4NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
-		QA4NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
+		QA4NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));	
 		QA4YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
 		QA4YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA4Group = new ButtonGroup();
+		QA4Group = new ButtonGroup();
 		QA4Group.add(QA4NoRadio);
 		QA4Group.add(QA4YesRadio);
 		
@@ -381,113 +441,91 @@ public class Assignment {
 		QA5YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
 		QA5YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA5Group = new ButtonGroup();
+		QA5Group = new ButtonGroup();
 		QA5Group.add(QA5NoRadio);
 		QA5Group.add(QA5YesRadio);
 		
 		QA6NoRadio = new JRadioButton("\u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48");
-		QA6NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
+		QA6NoRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));	
 		QA6YesRadio = new JRadioButton("\u0E43\u0E0A\u0E48");
 		QA6YesRadio.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		
-		ButtonGroup QA6Group = new ButtonGroup();
+		QA6Group = new ButtonGroup();
 		QA6Group.add(QA6NoRadio);
 		QA6Group.add(QA6YesRadio);
-		
+
 		GroupLayout gl_Assignment = new GroupLayout(Assignment);
 		gl_Assignment.setHorizontalGroup(
 			gl_Assignment.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 629, Short.MAX_VALUE)
 				.addGroup(gl_Assignment.createSequentialGroup()
+					.addGap(19)
+					.addComponent(TopicALabel, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(290, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_Assignment.createSequentialGroup()
+					.addContainerGap(47, Short.MAX_VALUE)
 					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+							.addComponent(QA1Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+							.addComponent(QA3Text, GroupLayout.PREFERRED_SIZE, 499, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(30)
+								.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_Assignment.createSequentialGroup()
+										.addGap(98)
+										.addComponent(QA3YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+									.addComponent(QA3NoRadio)))
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(30)
+								.addComponent(QA2NoRadio)
+								.addGap(42)
+								.addComponent(QA2YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(127)
+								.addComponent(QA4YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+							.addComponent(QA4Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(29)
+								.addComponent(QA4NoRadio))
+							.addComponent(QA2Text, GroupLayout.PREFERRED_SIZE, 352, GroupLayout.PREFERRED_SIZE)
+							.addComponent(QA5Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(125)
+								.addComponent(QA5YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(27)
+								.addComponent(QA5NoRadio))
+							.addComponent(QA6Text, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_Assignment.createSequentialGroup()
+								.addGap(28)
+								.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_Assignment.createSequentialGroup()
+										.addGap(98)
+										.addComponent(QA6YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+									.addComponent(QA6NoRadio))))
 						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(19)
-							.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_Assignment.createParallelGroup(Alignment.TRAILING)
-									.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-										.addComponent(QA2Text, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-										.addComponent(QA3Text, GroupLayout.PREFERRED_SIZE, 499, GroupLayout.PREFERRED_SIZE)
-										.addComponent(QA5Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-										.addComponent(QA6Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_Assignment.createSequentialGroup()
-											.addGap(19)
-											.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-												.addComponent(QA12Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_Assignment.createSequentialGroup()
-													.addGap(10)
-													.addComponent(QA12NoRadio)
-													.addGap(39)
-													.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-														.addGroup(gl_Assignment.createSequentialGroup()
-															.addGap(2)
-															.addComponent(QA12YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-														.addGroup(gl_Assignment.createSequentialGroup()
-															.addGap(2)
-															.addComponent(QA4YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-														.addComponent(QA5YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_Assignment.createSequentialGroup()
-															.addGap(3)
-															.addComponent(QA6YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))))))
-										.addComponent(QA4Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_Assignment.createSequentialGroup()
-											.addGap(29)
-											.addComponent(QA4NoRadio)))
-									.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_Assignment.createSequentialGroup()
-											.addGap(10)
-											.addComponent(QA11NoRadio)
-											.addGap(18)
-											.addComponent(QA11YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-										.addComponent(QA11Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)))
-								.addComponent(QA1Text, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-								.addComponent(TopicALabel, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(46)
-							.addComponent(QA5NoRadio))
-						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(49)
-							.addComponent(QA6NoRadio))
-						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(49)
-							.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_Assignment.createSequentialGroup()
-									.addGap(98)
-									.addComponent(QA3YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-								.addComponent(QA3NoRadio)))
-						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(50)
-							.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_Assignment.createSequentialGroup()
-									.addGap(98)
-									.addComponent(QA2YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-								.addComponent(QA2NoRadio))))
-					.addContainerGap(31, Short.MAX_VALUE))
+							.addGap(31)
+							.addComponent(QA1NoRadio)
+							.addGap(43)
+							.addComponent(QA1YesRadio, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
+					.addGap(22))
 		);
 		gl_Assignment.setVerticalGroup(
 			gl_Assignment.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 975, Short.MAX_VALUE)
+				.addGap(0, 720, Short.MAX_VALUE)
 				.addGroup(gl_Assignment.createSequentialGroup()
-					.addGap(25)
+					.addGap(49)
 					.addComponent(TopicALabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(QA1Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
-					.addComponent(QA11Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-						.addComponent(QA11NoRadio)
-						.addComponent(QA11YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(QA12Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_Assignment.createParallelGroup(Alignment.BASELINE)
+						.addComponent(QA1YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(QA1NoRadio))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
-						.addComponent(QA12YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_Assignment.createSequentialGroup()
-							.addComponent(QA12NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(37)
-							.addComponent(QA2Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addComponent(QA2Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_Assignment.createParallelGroup(Alignment.BASELINE)
 						.addComponent(QA2YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(QA2NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(20)
@@ -496,31 +534,32 @@ public class Assignment {
 					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
 						.addComponent(QA3YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 						.addComponent(QA3NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(89)
-							.addComponent(QA4YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(96)
-							.addComponent(QA5YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(86)
-							.addComponent(QA6YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+							.addGap(67)
+							.addComponent(QA4YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_Assignment.createSequentialGroup()
-							.addGap(22)
 							.addComponent(QA4Text, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(QA4NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(29)
+							.addComponent(QA4NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Assignment.createSequentialGroup()
+							.addGap(67)
+							.addComponent(QA5YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_Assignment.createSequentialGroup()
 							.addComponent(QA5Text, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(QA5NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(19)
-							.addComponent(QA6Text, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(QA6NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(11, Short.MAX_VALUE))
+							.addComponent(QA5NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+					.addGap(19)
+					.addComponent(QA6Text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_Assignment.createParallelGroup(Alignment.LEADING)
+						.addComponent(QA6YesRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addComponent(QA6NoRadio, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(37, Short.MAX_VALUE))
 		);
-		
 		Assignment.setLayout(gl_Assignment);
 		
 		Page2 = new JScrollPane();
