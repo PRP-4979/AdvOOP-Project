@@ -25,8 +25,6 @@ public class Dashboard {
 
 	private JFrame frame;
 	private JLabel HeadLabel;
-	private JTabbedPane Container;
-	private JPanel VaccinePage, GuidelinePage;
 	private JButton VaccineButton, GuidelineButton, LogoutButton;
 	private JScrollPane VaccineScroll, GuidelineScroll;
 	private JTable VaccineTable, GuidelineTable;
@@ -62,22 +60,31 @@ public class Dashboard {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("\u0E41\u0E14\u0E0A\u0E1A\u0E2D\u0E23\u0E4C\u0E14");
-		frame.setBounds(100, 100, 740, 540);
+		frame.setBounds(100, 100, 720, 620);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		Container = new JTabbedPane(JTabbedPane.TOP);
-		Container.setBounds(189, 75, 500, 400);
-		frame.getContentPane().add(Container);
+		HeadLabel = new JLabel("\u0E41\u0E14\u0E0A\u0E1A\u0E2D\u0E23\u0E4C\u0E14");
+		HeadLabel.setFont(new Font("CordiaUPC", Font.BOLD, 36));
+		HeadLabel.setBounds(29, 21, 220, 40);
+		frame.getContentPane().add(HeadLabel);
 		
-		VaccinePage = new JPanel();
-		Container.addTab("Vaccine", null, getVaccinePage(), null);
+		VaccineScroll = new JScrollPane();
+		VaccineScroll.setBounds(210, 99, 445, 200);
+		VaccineScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		frame.getContentPane().add(VaccineScroll);
 		
-		Container.addTab("Guideline", null, getGuidelinePage(), null);
-		GuidelinePage.setLayout(null);
+		GuidelineScroll = new JScrollPane();
+		GuidelineScroll.setBounds(210, 335, 445, 200);
+		GuidelineScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		frame.getContentPane().add(GuidelineScroll);
 		
+		VaccinePage vaccine = new VaccinePage(VaccineScroll);
+		GuidelinePage guide = new GuidelinePage(GuidelineScroll);
+		
+		vaccine.start();
+		guide.start();
 
-		
 		VaccineButton = new JButton("\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E27\u0E31\u0E04\u0E0B\u0E35\u0E19");
 		VaccineButton.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
 		VaccineButton.setBounds(30, 100, 130, 40);
@@ -106,7 +113,7 @@ public class Dashboard {
 		
 		LogoutButton = new JButton("\u0E2D\u0E2D\u0E01\u0E08\u0E32\u0E01\u0E23\u0E30\u0E1A\u0E1A");
 		LogoutButton.setFont(new Font("CordiaUPC", Font.PLAIN, 24));
-		LogoutButton.setBounds(30, 435, 130, 40);
+		LogoutButton.setBounds(30, 495, 130, 40);
 		LogoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Command window = new Command();
@@ -116,139 +123,140 @@ public class Dashboard {
 			}
 		});
 		frame.getContentPane().add(LogoutButton);
-		
-		HeadLabel = new JLabel("\u0E41\u0E14\u0E0A\u0E1A\u0E2D\u0E23\u0E4C\u0E14");
-		HeadLabel.setFont(new Font("CordiaUPC", Font.BOLD, 36));
-		HeadLabel.setBounds(29, 21, 220, 40);
-		frame.getContentPane().add(HeadLabel);
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public JPanel getVaccinePage() {
-		VaccineScroll = new JScrollPane();
-		VaccineScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		VaccineScroll.setBounds(25, 35, 445, 262);
+	class VaccinePage extends Thread{
+		private JTable VaccineTable;
+		private JScrollPane VaccineScroll;
 		
-		try {
-			Database db = new Database();
-			String sql = "SELECT vac_name, efficiency, range_age, vac_detail FROM vaccine";
-			if (db.Connect()) {
-				rsRead = db.ExecuteQuery(sql);
-				
-				if (rsRead != null) {
-					ResultSetMetaData rsmt = rsRead.getMetaData();
-					int count = rsmt.getColumnCount();
-					column = new Vector(count);
+		public VaccinePage(JScrollPane scroll) {
+			this.VaccineScroll = scroll;
+		}
+		
+		public void run() {
+			try {
+				Database db = new Database();
+				String sql = "SELECT vac_name, efficiency, range_age, vac_detail FROM vaccine";
+				if (db.Connect()) {
+					rsRead = db.ExecuteQuery(sql);
 					
-					for(int i = 1; i <= count; i++) {
-						if (rsmt.getColumnName(i).equals("vac_name")) {
-							column.add("Name");
-						}else if (rsmt.getColumnName(i).equals("efficiency")) {
-							column.add("Efficiency");
-						}else if (rsmt.getColumnName(i).equals("range_age")) {
-							column.add("Age");
-						}else if (rsmt.getColumnName(i).equals("vac_detail")) {
-							column.add("Detail");
-						}else {
-							column.add(rsmt.getColumnName(i));
-						}
-					}
-					
-					data = new Vector();
-					row = new Vector();
-					
-					while(rsRead.next()) {
-						row = new Vector(count);
+					if (rsRead != null) {
+						ResultSetMetaData rsmt = rsRead.getMetaData();
+						int count = rsmt.getColumnCount();
+						column = new Vector(count);
+						
 						for(int i = 1; i <= count; i++) {
-							String columnName = "";
-							if (rsRead.getString(i).equals("1")) {
-								row.add("มากกว่า 16 ปี ขึ้นไป");
-							}else if (rsRead.getString(i).equals("2")) {
-								row.add("ไม่เกิน 60 ปี");
+							if (rsmt.getColumnName(i).equals("vac_name")) {
+								column.add("Name");
+							}else if (rsmt.getColumnName(i).equals("efficiency")) {
+								column.add("Efficiency");
+							}else if (rsmt.getColumnName(i).equals("range_age")) {
+								column.add("Age");
+							}else if (rsmt.getColumnName(i).equals("vac_detail")) {
+								column.add("Detail");
 							}else {
-								row.add(rsRead.getString(i));
+								column.add(rsmt.getColumnName(i));
 							}
 						}
-						data.add(row);
+						
+						data = new Vector();
+						row = new Vector();
+						
+						while(rsRead.next()) {
+							row = new Vector(count);
+							for(int i = 1; i <= count; i++) {
+								String columnName = "";
+								if (rsRead.getString(i).equals("1")) {
+									row.add("มากกว่า 16 ปี ขึ้นไป");
+								}else if (rsRead.getString(i).equals("2")) {
+									row.add("ไม่เกิน 60 ปี");
+								}else {
+									row.add(rsRead.getString(i));
+								}
+							}
+							data.add(row);
+						}
+						
+						VaccineTable = new JTable(data, column);
+						VaccineTable.setFont(new Font("CordiaUPC", Font.PLAIN, 20));
+						VaccineTable.setRowHeight(30);
+						VaccineScroll.setViewportView(VaccineTable);
 					}
-					
-					VaccineTable = new JTable(data, column);
-					VaccineTable.setFont(new Font("CordiaUPC", Font.PLAIN, 20));
-					VaccineTable.setRowHeight(30);
-					VaccineScroll.setViewportView(VaccineTable);
 				}
+			}catch(SQLException e) {
+				System.out.println(e);
+			}catch(Exception ex) {
+				System.out.println(ex);
 			}
-		}catch(SQLException e) {
-			System.out.println(e);
-		}catch(Exception ex) {
-			System.out.println(ex);
 		}
-
-		VaccinePage = new JPanel();
-		VaccinePage.setLayout(null);
-		VaccinePage.add(VaccineScroll);
-		
-		return VaccinePage;
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public JPanel getGuidelinePage() {
-		GuidelineScroll = new JScrollPane();
-		GuidelineScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		GuidelineScroll.setBounds(25, 35, 445, 262);
+	class GuidelinePage extends Thread{
+		private JTable GuidelineTable;
+		private JScrollPane GuidelineScroll;
 		
-		try {
-			Database db = new Database();
-			String sql = "SELECT guide_color, guide_detail, guide_risk FROM guideline";
-			if (db.Connect()) {
-				rsRead = db.ExecuteQuery(sql);
-				
-				if (rsRead != null) {
-					ResultSetMetaData rsmt = rsRead.getMetaData();
-					int count = rsmt.getColumnCount();
-					column = new Vector(count);
-					
-					for(int i = 1; i <= count; i++) {
-						if (rsmt.getColumnName(i).equals("guide_color")) {
-							column.add("Type");
-						}else if (rsmt.getColumnName(i).equals("guide_detail")) {
-							column.add("Detail");
-						}else if (rsmt.getColumnName(i).equals("guide_risk")) {
-							column.add("Important");
-						}else {
-							column.add(rsmt.getColumnName(i));
-						}
-					}
-					
-					data = new Vector();
-					row = new Vector();
-					
-					while(rsRead.next()) {
-						row = new Vector(count);
-						for(int i = 1; i <= count; i++) {
-							String columnName = "";
-							row.add(rsRead.getString(i));
-						}
-						data.add(row);
-					}
-					
-					GuidelineTable = new JTable(data, column);
-					GuidelineTable.setFont(new Font("CordiaUPC", Font.PLAIN, 20));
-					GuidelineTable.setRowHeight(30);
-					GuidelineScroll.setViewportView(GuidelineTable);
-				}
-			}
-		}catch(SQLException e) {
-			System.out.println(e);
-		}catch(Exception ex) {
-			System.out.println(ex);
+		public GuidelinePage(JScrollPane scroll) {
+			this.GuidelineScroll = scroll;
 		}
-
-		GuidelinePage = new JPanel();
-		GuidelinePage.add(GuidelineScroll);
 		
-		return GuidelinePage;
+		public void run() {
+			try {
+				
+				try {
+					Thread.sleep(100);
+				}catch(Exception e) {
+					System.out.println(e);
+				}
+				
+				Database db = new Database();
+				String sql = "SELECT guide_color, guide_detail, guide_risk FROM guideline";
+				if (db.Connect()) {
+					rsRead = db.ExecuteQuery(sql);
+					
+					if (rsRead != null) {
+						ResultSetMetaData rsmt = rsRead.getMetaData();
+						int count = rsmt.getColumnCount();
+						column = new Vector(count);
+						
+						for(int i = 1; i <= count; i++) {
+							if (rsmt.getColumnName(i).equals("guide_color")) {
+								column.add("Type");
+							}else if (rsmt.getColumnName(i).equals("guide_detail")) {
+								column.add("Detail");
+							}else if (rsmt.getColumnName(i).equals("guide_risk")) {
+								column.add("Important");
+							}else {
+								column.add(rsmt.getColumnName(i));
+							}
+						}
+						
+						data = new Vector();
+						row = new Vector();
+						
+						while(rsRead.next()) {
+							row = new Vector(count);
+							for(int i = 1; i <= count; i++) {
+								String columnName = "";
+								row.add(rsRead.getString(i));
+							}
+							data.add(row);
+						}
+						
+						GuidelineTable = new JTable(data, column);
+						GuidelineTable.setFont(new Font("CordiaUPC", Font.PLAIN, 20));
+						GuidelineTable.setRowHeight(30);
+						GuidelineScroll.setViewportView(GuidelineTable);
+					}
+				}
+			}catch(SQLException e) {
+				System.out.println(e);
+			}catch(Exception ex) {
+				System.out.println(ex);
+			}
+		}
 	}
 }
